@@ -1,0 +1,25 @@
+services:
+  rd-nas:
+    build: .
+    container_name: rd-nas-downloader
+    ports:
+      - "${PORT:-8080}:8080"
+    environment:
+      - RD_API_KEY=${RD_API_KEY}
+      - DOWNLOAD_PATH=${DOWNLOAD_PATH:-/downloads}
+      - POLL_INTERVAL=${POLL_INTERVAL:-10}
+      - DOWNLOAD_CONCURRENCY=${DOWNLOAD_CONCURRENCY:-2}
+    volumes:
+      - ${DOWNLOAD_PATH:-/downloads}:/downloads
+      - rd-nas-data:/app/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/api/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+
+volumes:
+  rd-nas-data:
+    driver: local
