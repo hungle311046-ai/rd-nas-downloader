@@ -3,7 +3,7 @@ services:
     image: ghcr.io/hungle311046-ai/rd-nas-downloader:latest
     container_name: rd-nas-downloader
     ports:
-      - "8080:8080"
+      - "1113:8080"
     environment:
       - RD_API_KEY=${RD_API_KEY}
       - DOWNLOAD_PATH=${DOWNLOAD_PATH:-/downloads}
